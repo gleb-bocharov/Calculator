@@ -6,12 +6,12 @@
 		<script type="text/javascript" src="main.js"></script>
 		<title>CALCULATOR</title>		
 	</head>
-	<body>
+	<body onload="loaded()">
 	<div class="leftPanel">
 		<div class="calculator">
 		
 			<div class="topRow">
-				<div class="clearButton">C</div>
+				<div class="clearButton" button-type="action" button-value="clear">C</div>
 				<div class="screen">
 					<div class="firstRow"></div>
 					<div class="secondRow"></div>
@@ -21,28 +21,28 @@
 			
 			<div class="keysPanel">
 				<div class="keysRow">
-					<div>7</div>
-					<div>8</div>
-					<div>9</div>
-					<div class="operator">+</div>
+					<div button-type="figure" button-value="7">7</div>
+					<div button-type="figure" button-value="8">8</div>
+					<div button-type="figure" button-value="9">9</div>
+					<div class="operator" button-type="operation" button-value="addition">+</div>
 				</div>
 				<div class="keysRow">
-					<div>4</div>
-					<div>5</div>
-					<div>6</div>
-					<div class="operator">-</div>
+					<div button-type="figure" button-value="4">4</div>
+					<div button-type="figure" button-value="5">5</div>
+					<div button-type="figure" button-value="6">6</div>
+					<div class="operator" button-type="operation" button-value="substruction">-</div>
 				</div>
 				<div class="keysRow">
-					<div>1</div>
-					<div>2</div>
-					<div>3</div>
-					<div class="operator">/</div>
+					<div button-type="figure" button-value="1">1</div>
+					<div button-type="figure" button-value="2">2</div>
+					<div button-type="figure" button-value="3">3</div>
+					<div class="operator" button-type="operation" button-value="division">/</div>
 				</div>
 				<div class="keysRow">
-					<div>0</div>
-					<div>.</div>
-					<div class="eval">=</div>
-					<div class="operator">x</div>
+					<div button-type="figure" button-value="0">0</div>
+					<div button-type="figure" button-value="point">.</div>
+					<div class="eval" button-type="action" button-value="equal">=</div>
+					<div class="operator" button-type="operation" button-value="multiple">x</div>
 				</div>
 			</div>
 		
