@@ -2,7 +2,7 @@ var STATE = {
 	START: 0,
 	FILLING_REG_1: 1,
 	FILLING_REG_2: 2,
-	OPERATION_ENTERED: 3,
+	OPERATION_ENTERED: 3
 };
 
 var OPERATION = {
@@ -10,7 +10,12 @@ var OPERATION = {
 	SUBSTRUCTION: 'substruction',
 	DIVISION:'division',
 	MULTIPLE:'multiple'
-}
+};
+
+var ACTION = {
+	CLEAR: 'clear',
+	EQUAL: 'equal'
+};
 
 var OPERATION_TYPE = {
 	NOP: 0,
@@ -18,21 +23,24 @@ var OPERATION_TYPE = {
 	SUB: 2,
 	DIV: 3,
 	MULT: 4
-}
+};
 
 var state = STATE.START;
 var operation = OPERATION_TYPE.NOP;
 
-var reg1 = 0;
-var reg2 = 0;
+var reg1 = {
+	figures : [],
+	value: 0
+};
+
+var reg2 = {
+	figures : [],
+	value: 0
+}
 
 var firstRow;
 var secondRow;
 var thirdRow;
-
-
-
-
 
 
 function init(){
@@ -83,8 +91,10 @@ function processFigure(value){
 
 
 function processAction(value){
-	if(value === 'clear'){
+	if (value === ACTION.CLEAR){
 		clearAction();
+	} else if(value === ACTION.EQUAL){
+		equalAction();
 	}
 }
 
@@ -158,4 +168,31 @@ function clearAction(){
 	secondRow.innerHTML = '';
 	thirdRow.innerHTML = '';
 	state = STATE.START;
+}
+
+function equalAction(){
+	if (state === STATE.FILLING_REG_2){
+		var result;
+		switch(operation){
+			case OPERATION_TYPE.ADD:
+				result = reg1 + reg2;
+				break;
+			case OPERATION_TYPE.SUB:
+				result = reg1 - reg2;
+				break;
+			case OPERATION_TYPE.DIV:
+				result = reg1 / reg2;
+				break;
+			case OPERATION_TYPE.MULT:
+				result = reg1 * reg2;
+				break;
+		}
+		reg1 = result;
+		reg2 = 0;
+		firstRow.innerHTML = reg1;
+		secondRow.innerHTML = '';
+		thirdRow.innerHTML = '';
+		operation = OPERATION_TYPE.NOP;
+		state = STATE.FILLING_REG_1;
+	}
 }
