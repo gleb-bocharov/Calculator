@@ -29,13 +29,15 @@ var state = STATE.START;
 var operation = OPERATION_TYPE.NOP;
 
 var reg1 = {
-	figures : [],
-	value: 0
+	figures : '0',
+	value: 0,
+	sign: 1
 };
 
 var reg2 = {
-	figures : [],
-	value: 0
+	figures : '0',
+	value: 0,
+	sign: 1
 }
 
 var firstRow;
@@ -102,9 +104,14 @@ function processAction(value){
 function processOperation(value){
 	var operationSign;
 	
-	if(state === STATE.START || state === STATE.FILLING_REG_1){
+	if (state === STATE.FILLING_REG_2){
+		equalAction();
+	}
+	
+	if (state === STATE.START || state === STATE.FILLING_REG_1){
 		state = STATE.OPERATION_ENTERED;
 	}
+		
 	switch(value){
 		case OPERATION.ADDITION:
 				operation = OPERATION_TYPE.ADD;
@@ -146,24 +153,42 @@ function processOperation(value){
 
 
 function fillRegister1(value){
-	var reg1str = reg1.toString();
-	reg1str = reg1str + value;
-	var num = Number(reg1str);
-	reg1 = num;
+	if (value === '.' && reg1.figures.indexOf('.') >= 0){
+		return;
+	}
+	
+	if (value === "-"){
+		reg1.sign *= -1;
+	} else{
+		reg1.figures = reg1.figures + value;
+	}
+	var num = Number(reg1.figures) * reg1.sign;
+	reg1.value = num;
 	firstRow.innerHTML = num;
 }
 
 function fillRegister2(value){
-	var reg2str = reg2.toString();
-	reg2str = reg2str + value;
-	var num = Number(reg2str);
-	reg2 = num;
+	if (value === '.' && reg2.figures.indexOf('.') >= 0){
+		return;
+	}
+	
+	if (value === "-"){
+		reg2.sign *= -1;
+	} else{
+		reg2.figures = reg2.figures + value;
+	}
+	var num = Number(reg2.figures) * reg2.sign;
+	reg2.value = num;
 	thirdRow.innerHTML = num;
 }
 
 function clearAction(){
-	reg1 = 0;
-	reg2 = 0;
+	reg1.figures = '0';
+	reg2.figures = '0';
+	reg1.value = 0;
+	reg2.value = 0;
+	reg1.sign = 1;
+	reg2.sign = 1;
 	firstRow.innerHTML = '0';
 	secondRow.innerHTML = '';
 	thirdRow.innerHTML = '';
@@ -175,21 +200,26 @@ function equalAction(){
 		var result;
 		switch(operation){
 			case OPERATION_TYPE.ADD:
-				result = reg1 + reg2;
+				result = reg1.value + reg2.value;
 				break;
 			case OPERATION_TYPE.SUB:
-				result = reg1 - reg2;
+				result = reg1.value - reg2.value;
 				break;
 			case OPERATION_TYPE.DIV:
-				result = reg1 / reg2;
+				result = reg1.value / reg2.value;
 				break;
 			case OPERATION_TYPE.MULT:
-				result = reg1 * reg2;
+				result = reg1.value * reg2.value;
 				break;
 		}
-		reg1 = result;
-		reg2 = 0;
-		firstRow.innerHTML = reg1;
+
+		reg1.value = result;
+		reg2.value = 0;
+		reg1.figures = result.toString();
+		reg2.figures = '0';
+		reg1.sign = result < 0 ? -1 : 1;
+		reg2.sign = 1;
+		firstRow.innerHTML = reg1.value;
 		secondRow.innerHTML = '';
 		thirdRow.innerHTML = '';
 		operation = OPERATION_TYPE.NOP;

@@ -98,12 +98,12 @@ html {
 }
 
 .keysPanel{
-	height: 300px;
+	height: auto;
 	width: 100%;
 }
 
 .keysRow{
-	height: 60px;
+	height: 70px;
 	width: 100%;
 }
 
@@ -136,6 +136,7 @@ html {
 .keysPanel > .keysRow > .eval {
 	background:rgba(250,100,0,0.3); 
 	color: #ccc;
+	width: 140px;
 }
 
 .keysPanel > .keysRow > div:hover {
